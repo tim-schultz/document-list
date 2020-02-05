@@ -1,18 +1,22 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Documents msg="Welcome to Your Vue.js App"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Documents from './components/Documents.vue'
+import * as documents from './assets/data/documents.json'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
-  }
+    Documents
+  },
+  mounted() {
+    console.log(documents, 'documents')
+  },
 }
 </script>
 
