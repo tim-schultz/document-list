@@ -1,24 +1,28 @@
-<template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <Documents msg="Welcome to Your Vue.js App"/>
-  </div>
-</template>
-
 <script>
 import Documents from './components/Documents.vue'
-import * as documents from './assets/data/documents.json'
+import { default as documentList } from './assets/data/documents.json'
 
 export default {
   name: 'app',
   components: {
     Documents
   },
+  data() {
+    return {
+      documentList
+    }
+  },
   mounted() {
-    console.log(documents, 'documents')
+    console.log(this.documentList, 'documents')
   },
 }
 </script>
+
+<template>
+  <div id="app">
+    <Documents :documents="documentList"/>
+  </div>
+</template>
 
 <style>
 #app {
