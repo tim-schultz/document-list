@@ -39,9 +39,14 @@ export default {
   mounted() {
     console.log(this.documentList, 'documents')
   },
+  computed: {
+    filteredDocuments() {
+      return this.documentList.filter((document) => document[this.activeFilter])
+    },
+  },
   methods: {
     updatedFilter(key) {
-      console.log(key, 'keyyy')
+      this.activeFilter = key
     },
   },
 }
@@ -53,7 +58,7 @@ export default {
       @filterUpdated="updatedFilter"
       :filters="filters"
     />
-    <Documents :documents="documentList" />
+    <Documents :documents="filteredDocuments" />
   </div>
 </template>
 

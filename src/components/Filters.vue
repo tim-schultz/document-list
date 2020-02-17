@@ -10,14 +10,6 @@ export default {
     filters: Array,
     sort: String,
   },
-//   data() {
-//     return {
-//       filters: ['Title', 'File', 'Radacted At', 'Deleted', 'Folder', 'Redaction Layer']
-//     }
-//   },
-    mounted() {
-        console.log(this.filters, 'filters')
-    },
 }
 </script>
 
