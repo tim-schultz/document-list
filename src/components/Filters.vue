@@ -8,21 +8,41 @@ export default {
   },
   props: {
     filters: Array,
-    sort: String,
   },
+  methods: {
+    generateFitler(filter) {
+      if (filter.value !== undefined) {
+        return {
+          'bg-white-500': filter.value === 'inactive',
+          'bg-red-500': filter.value === false,
+          'bg-green-500': filter.value === true,
+        }
+      }
+      return {}   
+    }
+  }
 }
 </script>
 
 <template>
   <div class="m-4 flex flex-wrap">
     <div
-      v-for="(filter, i) in filters"
-      :key="i"
+      v-for="filter in filters"
+      :key="filter.key"
       class="m-2"
       @click.prevent="$emit('filterUpdated', filter.key)"
     >
       <Button
-        :text="filter.name"
+        :filter="filter"
+        :classObject="generateFitler(filter)"
+      />
+    </div>
+    <div
+      @click.prevent="$emit('clearAll')"
+      class="m-2"
+    >
+      <Button
+        :filter="{ name: 'Clear All' }"
       />
     </div>
   </div>

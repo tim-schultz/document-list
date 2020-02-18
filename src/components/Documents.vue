@@ -10,9 +10,6 @@ export default {
       headings: ['Title', 'File', 'Radacted At', 'Deleted', 'Folder', 'Redaction Layer']
     }
   },
-  computed: {
-
-  }
 }
 </script>
 

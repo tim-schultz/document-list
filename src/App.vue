@@ -16,24 +16,17 @@ export default {
         {
           name: 'Deleted',
           type: Boolean,
-          value: null,
           key: 'deleted',
+          value: 'inactive',
         },
         {
           name: 'Redacted',
-          type: Date,
-          value: null,
+          type: Boolean,
           key: 'redacted_at',
-        },
-        {
-          name: 'Redaction Layer',
-          type: Number,
-          value: null,
-          key: 'redaction_layer_count',
+          value: 'inactive',
         },
       ],
       keys: ['title', 'filename', 'redacted_at', 'deleted', 'folder', 'redaction_layer_count'],
-      activeFilter: null,
     }
   },
   mounted() {
@@ -41,12 +34,52 @@ export default {
   },
   computed: {
     filteredDocuments() {
-      return this.documentList.filter((document) => document[this.activeFilter])
+      // Filter out duplicates
+      let documents = Array.from(new Set(this.documentList.map((doc) => doc.id)))
+        .map((id) => this.documentList.find((doc) => doc.id === id))
+
+      // Apply selected filters
+      const truthyFilters = this.filters.filter((filter) => filter.value === true).map((value) => value.key)
+      const falsyFilters = this.filters.filter((filter) => filter.value === false).map((value) => value.key)
+
+      if (truthyFilters.length > 0) {
+        documents = documents.filter((document) => {
+          return Object.keys(document).filter((key) => {
+            return truthyFilters.includes(key) && document[key]
+          }).length > 0
+        })
+      }
+
+      if (falsyFilters.length > 0) {
+        documents = documents.filter((document) => {
+          return Object.keys(document).filter((key) => {
+            return falsyFilters.includes(key) && (document[key] === false || document[key] === null)
+          }).length > 0
+        })
+      }
+
+      return documents
     },
   },
   methods: {
     updatedFilter(key) {
-      this.activeFilter = key
+      // this.clearFilters()
+      const index = this.filters.findIndex(filter => filter.key === key)
+      if (this.filters[index].value === 'inactive') {
+        this.filters[index].value = true
+      } else if (this.filters[index].value) {
+        this.filters[index].value = !this.filters[index].value
+      } else {
+        this.filters[index].value = 'inactive'
+      }
+    },
+    clearFilters() {
+      const cleared = this.filters.map((filter) => {
+        filter.value = 'inactive'
+        return filter
+      })
+      console.log(cleared, 'cleared')
+      this.filters = cleared
     },
   },
 }
@@ -56,6 +89,7 @@ export default {
   <div id="app">
     <Filters
       @filterUpdated="updatedFilter"
+      @clearAll="clearFilters"
       :filters="filters"
     />
     <Documents :documents="filteredDocuments" />

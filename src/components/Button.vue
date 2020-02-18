@@ -2,14 +2,17 @@
 export default {
   name: 'Documents',
   props: {
-    text: String,
-    active: Boolean,
+    filter: Object,
+    classObject: Object,
   },
 }
 </script>
 
 <template>
-  <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
-    {{ text }}
+  <button
+    class="hover:border-gray-800 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+    :class="classObject"
+  >
+    {{ filter.name }}
   </button>
 </template>
