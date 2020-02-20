@@ -30,7 +30,6 @@ export default {
         //   value: 'inactive',
         // },
       ],
-      keys: ['title', 'filename', 'redacted_at', 'deleted', 'folder', 'redaction_layer_count'],
     }
   },
   computed: {

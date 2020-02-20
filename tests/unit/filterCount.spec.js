@@ -2,7 +2,7 @@ import { shallowMount } from '@vue/test-utils'
 import Filters from '@/components/Filters.vue'
 
 describe('Filters.vue', () => {
-  it('renders props.documnents when passed', () => {
+  it('renders correct number of filters based on props array', () => {
     const filters = [
       {
         name: 'Deleted',
