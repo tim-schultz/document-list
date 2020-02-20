@@ -7,7 +7,8 @@ export default {
   },
   data() {
     return {
-      headings: ['Title', 'File', 'Radacted At', 'Deleted', 'Folder', 'Redaction Layer']
+      headings: ['Title', 'File', 'Radacted At', 'Deleted', 'Folder', 'Redaction Layer'],
+      documentKeys: ['title', 'filename', 'redacted_at', 'deleted', 'folder', 'redaction_layer_count']
     }
   },
 }
@@ -32,23 +33,17 @@ export default {
           v-for="document in documents"
           :key="document.id"
         >
-          <td class="border px-4 py-2">
-            {{ document.title }}
-          </td>
-          <td class="border px-4 py-2">
-            {{ document.filename }}
-          </td>
-          <td class="border px-4 py-2">
-            {{ document.redacted_at | moment("dddd, MMMM Do YYYY") }}
-          </td>
-          <td class="border px-4 py-2">
-            {{ document.deleted }}
-          </td>
-          <td class="border px-4 py-2">
-            {{ document.folder }}
-          </td>
-          <td class="border px-4 py-2">
-            {{ document.redaction_layer_count }}
+          <td 
+            v-for="key in documentKeys"
+            :key="key"
+            class="border px-4 py-2"
+          >
+            <span v-if="key === 'redacted_at' && document[key]">
+              {{ document[key] | moment("dddd, MMMM Do YYYY") }}
+            </span>
+            <span v-else>
+              {{ document[key] }}
+            </span>
           </td>
         </tr>
       </tbody>

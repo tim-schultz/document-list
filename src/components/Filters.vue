@@ -26,6 +26,9 @@ export default {
 
 <template>
   <div class="m-4 flex flex-wrap">
+    <div class="flex w-full">
+      Click once to see value that match the field, twice for filters that don't, and a third to clear the filter.
+    </div>
     <div
       v-for="filter in filters"
       :key="filter.key"
@@ -42,7 +45,7 @@ export default {
       class="m-2"
     >
       <Button
-        :filter="{ name: 'Clear All' }"
+        :filter="{ name: 'Clear' }"
       />
     </div>
   </div>

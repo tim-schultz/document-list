@@ -15,22 +15,23 @@ export default {
       filters: [
         {
           name: 'Deleted',
-          type: Boolean,
           key: 'deleted',
           value: 'inactive',
         },
         {
           name: 'Redacted',
-          type: Boolean,
           key: 'redacted_at',
           value: 'inactive',
         },
+        // Commented out to demonstrate ease of adding another filter
+        // {
+        //   name: 'Has Folder',
+        //   key: 'folder',
+        //   value: 'inactive',
+        // },
       ],
       keys: ['title', 'filename', 'redacted_at', 'deleted', 'folder', 'redaction_layer_count'],
     }
-  },
-  mounted() {
-    console.log(this.documentList, 'documents')
   },
   computed: {
     filteredDocuments() {
@@ -39,8 +40,8 @@ export default {
         .map((id) => this.documentList.find((doc) => doc.id === id))
 
       // Apply selected filters
-      const truthyFilters = this.filters.filter((filter) => filter.value === true).map((value) => value.key)
-      const falsyFilters = this.filters.filter((filter) => filter.value === false).map((value) => value.key)
+      const truthyFilters = this.generateSelectedFilters(this.filters, true)
+      const falsyFilters = this.generateSelectedFilters(this.filters, false)
 
       if (truthyFilters.length > 0) {
         documents = documents.filter((document) => {
@@ -63,8 +64,8 @@ export default {
   },
   methods: {
     updatedFilter(key) {
-      // this.clearFilters()
       const index = this.filters.findIndex(filter => filter.key === key)
+      this.clearFilters(index)
       if (this.filters[index].value === 'inactive') {
         this.filters[index].value = true
       } else if (this.filters[index].value) {
@@ -73,14 +74,16 @@ export default {
         this.filters[index].value = 'inactive'
       }
     },
-    clearFilters() {
-      const cleared = this.filters.map((filter) => {
-        filter.value = 'inactive'
+    clearFilters(exclude = null) {
+      const cleared = this.filters.map((filter, i) => {
+        exclude === null || exclude !== i ? filter.value = 'inactive' : ''
         return filter
       })
-      console.log(cleared, 'cleared')
       this.filters = cleared
     },
+    generateSelectedFilters(filters, type) {
+      return filters.filter((filter) => filter.value === type).map((value) => value.key)
+    }
   },
 }
 </script>
