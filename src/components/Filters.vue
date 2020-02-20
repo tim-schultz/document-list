@@ -32,7 +32,7 @@ export default {
     <div
       v-for="filter in filters"
       :key="filter.key"
-      class="m-2"
+      class="m-2 filter"
       @click.prevent="$emit('filterUpdated', filter.key)"
     >
       <Button
@@ -42,7 +42,7 @@ export default {
     </div>
     <div
       @click.prevent="$emit('clearAll')"
-      class="m-2"
+      class="m-2 filter"
     >
       <Button
         :filter="{ name: 'Clear' }"

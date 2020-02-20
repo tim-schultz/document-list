@@ -3,7 +3,6 @@ export default {
   name: 'Documents',
   props: {
     documents: Array,
-    sort: String,
   },
   data() {
     return {
